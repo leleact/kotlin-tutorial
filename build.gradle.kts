@@ -42,6 +42,7 @@ tasks {
         manifest {
             attributes["Main-Class"] = application.mainClassName
         }
-        from(configurations.runtime.get().map { if (it.isDirectory) it else zipTree(it) })
+        //from(configurations.runtime.get().map { if (it.isDirectory) it else zipTree(it) })
+        from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     }
 }

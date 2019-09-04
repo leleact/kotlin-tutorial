@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.3.50"
+    application
 }
 
 group = "com.github.leleact"
@@ -24,13 +25,23 @@ tasks.withType<KotlinCompile> {
 }
 
 java {
-    // (4)
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+application {
+    mainClassName = "com.github.leleact.kotlin.tutorial.MainKt"
 }
 
 tasks {
     test {
         useJUnitPlatform()
+    }
+
+    jar {
+        manifest {
+            attributes["Main-Class"] = application.mainClassName
+        }
+        from(configurations.runtime.get().map { if (it.isDirectory) it else zipTree(it) })
     }
 }
